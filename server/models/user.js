@@ -5,14 +5,9 @@ const {Schema, model} = mongoose
 const userSchema = new Schema({
     username: {
         type: String,
-        required: [true, 'Username is required'],
-        unique: [true, 'Username already exist'],
-        minLength: [5, 'Minimum characters is 5']
     },
     email: {
-        type: String,
-        required: [true, 'Email is required'],
-        unique: [true, 'Email already exist']
+        type: String
     },
     password: {
         type: String,
@@ -26,7 +21,9 @@ const userSchema = new Schema({
     lastName: {
         type: String,
         required: true,
-    },
+    }
+},{
+    versionKey: false
 })
 
 const User = model('User', userSchema)

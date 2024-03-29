@@ -1,4 +1,6 @@
 module.exports = function errorHandlers(err, req, res, next) {
+
+    // console.log(err, "<< CEK");
     let statusCode = err.statusCode || 500
     let message = err.message || 'Internal server error'
 
