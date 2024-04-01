@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET
 
-console.log(SECRET_KEY, "<< CEK");
+// console.log(SECRET_KEY, "<< CEK");
 
 const generateToken = (payload) => {
     return jwt.sign(payload, SECRET_KEY)

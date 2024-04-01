@@ -1,11 +1,12 @@
 const User = require('../models/user');
 const emailValidator = require('../utils/emailValidator');
-const { hashPassword } = require('../utils/bcrypt');
+const { hashPassword, comparePassword } = require('../utils/bcrypt');
+const { generateToken } = require('../utils/jwt');
+const db = require('../db/mongoDbConnection');
 
 module.exports = class UserController {
     static async register(req, res, next) {
         try {
-
 
             const { username, email, password, firstName, lastName } = req.body
 
@@ -15,24 +16,31 @@ module.exports = class UserController {
 
             if (password.length < 6 || username.length < 6) throw { name: `BadRequest`, message: `Required field length must be minimum 6 characters` }
 
-            const addUser = new User({
+            const user = await User.findOne({
+                email: email,
+                username : username
+            })
+
+            if(user) throw {name: `Unprocessable Entity (WebDAV)`, message: `Account already exist`}
+
+            const registerFormField = {
                 username,
                 email,
                 password: hashPassword(password),
                 firstName,
                 lastName
-            })
+            }
 
-            if (!addUser) throw { name: `BadRequest`, message: `All field is required` }
+            if (!registerFormField) throw { name: `BadRequest`, message: `All field is required` }
+
+            const addUser = new User(registerFormField)
 
             const result = addUser.save()
 
-            if (result) {
+            if(result) {
                 return res.status(201).json({ message: `Successfully created new account` })
-            } else {
-                throw error
             }
-            
+             
         } catch (error) {
             console.log(error);
             next(error)

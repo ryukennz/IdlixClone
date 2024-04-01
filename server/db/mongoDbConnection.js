@@ -16,18 +16,8 @@ const connect = async () => {
 
 const client = new MongoClient(uri)
 
-const db = client.db()
+const db = client.db('projectidlixclone')
 
 connect()
 
-// module.exports = mongooseDbConnect
-
-// const client = new MongoClient(uri);
-
-// const db = client.db('idlixclone')
-
-// const getCollection = (collectionName) => {
-//     return db.collection(collectionName)
-// }
-
-// module.exports = getCollection
+module.exports = db
