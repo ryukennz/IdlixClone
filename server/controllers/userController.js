@@ -17,11 +17,10 @@ module.exports = class UserController {
             if (password.length < 6 || username.length < 6) throw { name: `BadRequest`, message: `Required field length must be minimum 6 characters` }
 
             const user = await User.findOne({
-                email: email,
-                username : username
+                email: email
             })
 
-            if(user) throw {name: `Unprocessable Entity (WebDAV)`, message: `Account already exist`}
+            if (user) throw { name: `Unprocessable Entity (WebDAV)`, message: `Account already exist` }
 
             const registerFormField = {
                 username,
@@ -37,10 +36,10 @@ module.exports = class UserController {
 
             const result = addUser.save()
 
-            if(result) {
+            if (result) {
                 return res.status(201).json({ message: `Successfully created new account` })
             }
-             
+
         } catch (error) {
             console.log(error);
             next(error)
@@ -49,7 +48,21 @@ module.exports = class UserController {
 
     static async login(req, res, next) {
         try {
+            const { username, email, password } = req.body
 
+            const user = await User.findOne({
+                username: username
+            })
+
+            if (!user) throw { name: `Unauthorized`, message: `Account doesn't exist` }
+
+            const checkUserPassword = comparePassword(password, user.password)
+
+            if (!checkUserPassword) throw { name: `Unauthorized`, message: `Account doesn't exist` }
+
+            const accessToken = generateToken({ id: user.id })
+
+            return res.status(200).json({ accessToken })
         } catch (error) {
             console.log(error);
             next(error)
