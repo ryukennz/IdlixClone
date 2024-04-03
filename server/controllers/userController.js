@@ -5,6 +5,7 @@ const { generateToken } = require('../utils/jwt');
 const db = require('../db/mongoDbConnection');
 
 module.exports = class UserController {
+
     static async register(req, res, next) {
         try {
 
@@ -34,11 +35,9 @@ module.exports = class UserController {
 
             const addUser = new User(registerFormField)
 
-            const result = addUser.save()
+            const result = await addUser.save()
 
-            if (result) {
-                return res.status(201).json({ message: `Successfully created new account` })
-            }
+            return res.status(201).json({ message: `Successfully created new account`, result })
 
         } catch (error) {
             console.log(error);
@@ -48,7 +47,8 @@ module.exports = class UserController {
 
     static async login(req, res, next) {
         try {
-            const { username, email, password } = req.body
+
+            const { username, password } = req.body
 
             const user = await User.findOne({
                 username: username
@@ -60,9 +60,54 @@ module.exports = class UserController {
 
             if (!checkUserPassword) throw { name: `Unauthorized`, message: `Account doesn't exist` }
 
-            const accessToken = generateToken({ id: user.id })
+            const accessToken = generateToken({ id: user._id })
 
             return res.status(200).json({ accessToken })
+
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async forgotPassword(req, res, next) {
+        try {
+            const { email } = req.body
+
+            const user = await User.findOne({
+                email: email
+            })
+
+            if (!user) throw { name: `NotFound`, message: `User doesn't exist` }
+
+            const token = generateToken({ id: user._id })
+
+            const nodemailer = require('nodemailer');
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.AUTH_USER,
+                    pass: process.env.AUTH_PASS
+                }
+            });
+
+            const mailOptions = {
+                from: process.env.AUTH_USER,
+                to: process.env.AUTH_RECEIVER,
+                subject: 'Reset Password Link',
+                text: `http://localhost:5173/reset-password/${user._id}/${token}`
+            };
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+
+
         } catch (error) {
             console.log(error);
             next(error)

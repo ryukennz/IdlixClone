@@ -4,7 +4,7 @@ const SECRET_KEY = process.env.SECRET
 // console.log(SECRET_KEY, "<< CEK");
 
 const generateToken = (payload) => {
-    return jwt.sign(payload, SECRET_KEY)
+    return jwt.sign(payload, SECRET_KEY, {expiresIn: '1d'})
 }
 
 const verifyToken = (token) => {
