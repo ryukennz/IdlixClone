@@ -2,7 +2,7 @@ const User = require('../models/user');
 const emailValidator = require('../utils/emailValidator');
 const { hashPassword, comparePassword } = require('../utils/bcrypt');
 const { generateToken } = require('../utils/jwt');
-const db = require('../db/mongoDbConnection');
+// const db = require('../db/mongoDbConnection');
 
 module.exports = class UserController {
 

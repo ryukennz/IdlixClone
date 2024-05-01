@@ -1,7 +1,4 @@
-
 const mongoose = require('mongoose');
-
-const { MongoClient } = require('mongodb');
 
 const uri = process.env.MONGO_URI
 
@@ -14,10 +11,4 @@ const connect = async () => {
     }
 }
 
-const client = new MongoClient(uri)
-
-const db = client.db('projectidlixclone')
-
 connect()
-
-module.exports = db

@@ -1,26 +1,11 @@
-import { createRoot } from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Link,
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
+import RegisterPage from "./views/RegisterPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <div>
-        <h1>Hello World</h1>
-        <Link to="about">About Us</Link>
-      </div>
-    ),
-  },
-  { 
-    path: "about",
-    element: <div>About</div>,
+    path: "/register",
+    element: <RegisterPage />,
   },
 ]);
 
-createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
-);
+export default router;
