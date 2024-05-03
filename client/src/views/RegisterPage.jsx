@@ -1,96 +1,57 @@
 import { useState } from "react";
-import Axios from "../utils/axios";
-
+import axios from "../utils/axios";
 export default function RegisterPage() {
-  const [register, setRegister] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleRegister = async (event) => {
-    console.log(event, "<< CEK");
-    try {
-      const response = await Axios({
-        method: "POST",
-        url: "/register",
-      });
-
-      console.log(response, "<< CEK");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleChangeInput = (e) => {
-    setRegister({
-      ...register,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   return (
-  <>
-  <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
-  <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">
-    Account settings
-  </h2>
-  <form>
-    <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-      <div>
-        <label className="text-gray-700 dark:text-gray-200" htmlFor="username">
-          Username
-        </label>
-        <input
-          id="username"
-          type="text"
-          className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-        />
-      </div>
-      <div>
-        <label
-          className="text-gray-700 dark:text-gray-200"
-          htmlFor="emailAddress"
-        >
-          Email Address
-        </label>
-        <input
-          id="emailAddress"
-          type="email"
-          className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-          />
-      </div>
-      <div>
-        <label className="text-gray-700 dark:text-gray-200" htmlFor="password">
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-        />
-      </div>
-      <div>
-        <label
-          className="text-gray-700 dark:text-gray-200"
-          htmlFor="passwordConfirmation"
-        >
-          Password Confirmation
-        </label>
-        <input
-          id="passwordConfirmation"
-          type="password"
-          className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-        />
-      </div>
-    </div>
-    <div className="flex justify-end mt-6">
-      <button className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
-        Save
-      </button>
-    </div>
-  </form>
-</section>
+    <div className="min-h-screen flex items-center justify-center bg-black">
+      <div className="bg-white flex max-w-4xl rounded-2xl">
+        <div className="sm:w-1/2 py-12 px-12">
+          <h2 className="p-4 text-black font-bold text-4xl">Sign up</h2>
+          <form className="flex flex-col gap-4">
+            <input
+              className="w-full p-4 bg-slate-100 rounded-xl mt-1"
+              type="text"
+              placeholder="First name"
+            />
+            <input
+              className="w-full p-4 bg-slate-100 rounded-xl"
+              type="text"
+              placeholder="Last name"
+            />
+            <input
+              className="w-full p-4 bg-slate-100 rounded-xl"
+              type="text"
+              placeholder="Username"
+            />
+            <input
+              className="w-full p-4 bg-slate-100 rounded-xl"
+              type="email"
+              placeholder="Email"
+            />
+            <input
+              className="w-full p-4 bg-slate-100 rounded-xl"
+              type="password"
+              placeholder="Password"
+            />
+            <button
+              className="w-full p-4 bg-black rounded-xl text-white text-xl"
+              type="submit"
+            >
+              Sign up
+            </button>
 
-  </>
+            <div className="p-2 flex justify-between">
+              <h5 className="">Already have an account?</h5>
+              <button type="button">Sign in</button>
+            </div>
+          </form>
+        </div>
+        <div className="sm:block hidden w-1/2 p-4">
+          <img
+            className=" ounded-xl"
+            src="https://images.unsplash.com/photo-1714646542331-278803db302f?q=80&w=1970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+        </div>
+      </div>
+    </div>
   );
 }
