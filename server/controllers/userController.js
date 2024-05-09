@@ -2,6 +2,7 @@ const User = require('../models/user');
 const emailValidator = require('../utils/emailValidator');
 const { hashPassword, comparePassword } = require('../utils/bcrypt');
 const { generateToken } = require('../utils/jwt');
+const isSpaceOnly = require('../utils/isSpaceOnly');
 // const db = require('../db/mongoDbConnection');
 
 module.exports = class UserController {
@@ -10,6 +11,8 @@ module.exports = class UserController {
         try {
 
             const { username, email, password, firstName, lastName } = req.body
+
+            if (!username || !email || !password || !firstName || !lastName || isSpaceOnly(username, email, password, firstName, lastName)) throw { name: `BadRequest`, message: `Invalid input` }
 
             const validateEmail = emailValidator(email)
 
@@ -30,8 +33,6 @@ module.exports = class UserController {
                 firstName,
                 lastName
             }
-
-            if (!registerFormField) throw { name: `BadRequest`, message: `All field is required` }
 
             const addUser = new User(registerFormField)
 

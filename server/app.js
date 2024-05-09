@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cors())
 
-app.use(router)
+app.use('/api', router)
 
 app.use(errorHandlers)
 

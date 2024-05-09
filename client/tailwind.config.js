@@ -8,7 +8,7 @@ export default {
     extend: {},
     fontFamily: {
       'open-sans': ['Open Sans', 'sans-serif'],
-    }
+    },
   },
   plugins: [],
 }
