@@ -1,11 +1,10 @@
 import { useState } from "react";
 import axios from "../utils/axios";
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function RegisterPage() {
-  const navigate = useNavigate();
   const [register, setRegister] = useState({
     firstName: "",
     lastName: "",
@@ -31,19 +30,19 @@ export default function RegisterPage() {
         data: register,
       });
       // console.log(response, "<<CEK");
-      toast.success(response.data.message)
+      toast.success(response.data.message);
       // setRegister(data.result);
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
       console.log(error);
     }
   };
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="bg-white flex max-w-4xl rounded-2xl">
+        <div className="bg-white flex md:flex-row max-w-4xl rounded-2xl">
           <div className="sm:w-1/2 py-12 px-12">
-            <h2 className="p-4 text-black font-bold font-[] text-4xl">
+            <h2 className="p-4 text-black font-bold text-4xl">
               Sign up
             </h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -94,15 +93,17 @@ export default function RegisterPage() {
                 Sign up
               </button>
 
-              <div className="sm:grid-col p-2 flex justify-between">
+              <div className="lg:p-2 flex justify-between">
                 <h5>Already have an account?</h5>
-                <button type="button">Sign in</button>
+                <Link to="/login">
+                  <button type="button">Sign in</button>
+                </Link>
               </div>
             </form>
           </div>
           <div className="sm:block hidden w-1/2 p-4">
             <img
-              className=" ounded-xl"
+              className="rounded-xl shadow-2xl"
               src="https://images.unsplash.com/photo-1714646542331-278803db302f?q=80&w=1970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             />
           </div>
