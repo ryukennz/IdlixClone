@@ -2,7 +2,7 @@ const User = require('../models/user');
 const emailValidator = require('../utils/emailValidator');
 const { hashPassword, comparePassword } = require('../utils/bcrypt');
 const { generateToken } = require('../utils/jwt');
-const isSpaceOnly = require('../utils/isSpaceOnly');
+const { isSpaceOnlyRegister, isSpaceOnlyLogin } = require('../utils/isSpaceOnly');
 // const db = require('../db/mongoDbConnection');
 
 module.exports = class UserController {
@@ -12,7 +12,7 @@ module.exports = class UserController {
 
             const { username, email, password, firstName, lastName } = req.body
 
-            if (!username || !email || !password || !firstName || !lastName || isSpaceOnly(username, email, password, firstName, lastName)) throw { name: `BadRequest`, message: `Invalid input` }
+            if (!username || !email || !password || !firstName || !lastName || isSpaceOnlyRegister(username, email, password, firstName, lastName)) throw { name: `BadRequest`, message: `Invalid input` }
 
             const validateEmail = emailValidator(email)
 
@@ -50,6 +50,8 @@ module.exports = class UserController {
         try {
 
             const { username, password } = req.body
+
+            if (!username || !password || isSpaceOnlyLogin(username, password)) throw { name: `BadRequest`, message: `Invalid input` }
 
             const user = await User.findOne({
                 username: username

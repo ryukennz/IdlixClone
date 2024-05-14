@@ -11,7 +11,7 @@ module.exports = function errorHandlers(err, req, res, next) {
         case `BadRequest`:
             statusCode = 400
             break;
-        case `Unathorized`:
+        case `Unauthorized`:
             statusCode = 401
             message = `Invalid Token`
             break;

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../utils/axios";
-import { toast, ToastContainer } from "react-toastify";
-import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import SubmitBtn from "../components/SubmitBtn";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
   const [register, setRegister] = useState({
     firstName: "",
     lastName: "",
@@ -29,22 +31,19 @@ export default function RegisterPage() {
         url: "/api/register",
         data: register,
       });
-      // console.log(response, "<<CEK");
-      toast.success(response.data.message);
-      // setRegister(data.result);
+      response.status === 201 ? toast.success(response.data.message) && navigate("/login") : null;
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
     }
   };
+
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="bg-white flex md:flex-row max-w-4xl rounded-2xl">
           <div className="sm:w-1/2 py-12 px-12">
-            <h2 className="p-4 text-black font-bold text-4xl">
-              Sign up
-            </h2>
+            <h2 className="p-4 text-black font-bold text-4xl">Sign up</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <input
                 onChange={handleChange}
@@ -86,17 +85,17 @@ export default function RegisterPage() {
                 type="password"
                 placeholder="Password"
               />
-              <button
-                className="w-full p-4 bg-black rounded-xl text-white text-xl"
-                type="submit"
-              >
-                Sign up
-              </button>
 
+              <SubmitBtn />
               <div className="lg:p-2 flex justify-between">
                 <h5>Already have an account?</h5>
                 <Link to="/login">
-                  <button type="button">Sign in</button>
+                  <button
+                    className="hover:underline hover:text-blue-600"
+                    type="button"
+                  >
+                    Sign in
+                  </button>
                 </Link>
               </div>
             </form>

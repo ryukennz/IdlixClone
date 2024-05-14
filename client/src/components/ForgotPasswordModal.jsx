@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export default function Modal({ onOpen, onClose }) {
   return (
     <>
@@ -28,11 +26,13 @@ export default function Modal({ onOpen, onClose }) {
                 Forgot Password
               </h4>
               <input
-                className="w-full p-4 bg-slate-100 rounded-xl"
+                className="flex text-center w-full p-4 bg-slate-100 rounded-xl"
                 type="email"
-                placeholder="youremail@example.com"
+                placeholder="youremail@mail.com"
               />
-              <button className="mt-2 font-bold text-black hover:text-gray-500">Submit</button>
+              <button className="mt-4 p-4 bg-black rounded-xl font-bold text-white hover:text-gray-500">
+                Submit
+              </button>
             </div>
           </form>
         </div>
