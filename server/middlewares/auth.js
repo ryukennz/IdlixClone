@@ -7,9 +7,9 @@ const authentication = async (req, res, next) => {
 
         if (!token) throw { name: `Unauthorized` }
 
-        if (token.slice(0, 7) !== `Bearer`) throw { name: `Unauthorized` }
+        if (token.slice(0, 7) !== `Bearer `) throw { name: `Unauthorized` }
 
-        token = token.split(`Bearer `)
+        token = token.slice(7)
 
         const payload = verifyToken(token)
 
