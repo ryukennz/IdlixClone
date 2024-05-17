@@ -29,24 +29,6 @@ const authentication = async (req, res, next) => {
     }
 }
 
-const authorization = async (req, res, next) => {
-    try {
-
-        const currentUser = req.user.id
-
-        const user = await User.findById()
-
-        if (currentUser !== user) throw { name: `Forbidden`, message: `You aren't authorized` }
-
-        next()
-
-    } catch (error) {
-        console.log(error);
-        next(error)
-    }
-}
-
 module.exports = {
     authentication,
-    authorization
 }

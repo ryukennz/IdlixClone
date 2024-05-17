@@ -13,11 +13,38 @@ module.exports = class WatchListController {
                 user: currentUser
             })
 
-            if (watchList) return res.status(400).json({ message: `Already added to watch list` })
+            if (!watchList) {
+                const result = await WatchList.findOneAndUpdate(
+                    { user: currentUser },
+                    { $push: { movies: movieId } },
+                    { new: true, upsert: true }
+                );
+                return res.status(200).json({ data: result, message: `Movie added to watch list` });
+            } else {
+                if (watchList.movies.includes(movieId)) {
+                    return res.status(400).json({ message: `Movie already added to watch list` });
+                } else {
+                    const result = await WatchList.findOneAndUpdate(
+                        { user: currentUser },
+                        { $push: { movies: movieId } },
+                        { new: true }
+                    );
+                    return res.status(200).json({ data: result, message: `Movie added to watch list` });
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
 
-            const result = await WatchList.findOneAndUpdate({ user: currentUser }, { $push: { movies: movieId } }, { new: true, upsert: true })
+    static async getWatchList(req, res, next) {
+        try {
+            const watchList = await WatchList.find()
 
-            return res.status(200).json({ data: result, message: `Movie added to watch list` })
+            if (!watchList) throw { name: `NotFound`, message: `Watch list not found` }
+
+            return res.json({ watchList })
         } catch (error) {
             console.log(error);
             next(error)

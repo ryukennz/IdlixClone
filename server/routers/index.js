@@ -15,6 +15,8 @@ router.get('/movies', MovieController.getMovies)
 
 router.use(authentication)
 
-router.post('/add-to-watchlist', WatchListController.addToWatchList)
+router.post('/watch-list', WatchListController.addToWatchList)
+
+router.get('/watch-list', WatchListController.getWatchList)
 
 module.exports = router
