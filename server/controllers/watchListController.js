@@ -38,13 +38,17 @@ module.exports = class WatchListController {
         }
     }
 
-    static async getWatchList(req, res, next) {
+    static async getWatchListByCurrentUser(req, res, next) {
         try {
-            const watchList = await WatchList.find()
+            const currentUser = req.user.id
+
+            const watchList = await WatchList.findOne({
+                user: currentUser
+            })
 
             if (!watchList) throw { name: `NotFound`, message: `Watch list not found` }
 
-            return res.json({ watchList })
+            return res.json(watchList)
         } catch (error) {
             console.log(error);
             next(error)
