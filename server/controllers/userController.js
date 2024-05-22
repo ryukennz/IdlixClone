@@ -80,6 +80,7 @@ module.exports = class UserController {
             const user = await User.findOne({
                 email: email
             })
+            console.log(user, "USER");
 
             if (!user) throw { name: `NotFound`, message: `User doesn't exist` }
 
@@ -97,7 +98,7 @@ module.exports = class UserController {
 
             const mailOptions = {
                 from: process.env.AUTH_USER,
-                to: process.env.AUTH_RECEIVER,
+                to: user.email,
                 subject: 'Reset Password Link',
                 text: `http://localhost:5173/reset-password/${user._id}/${token}`
             };
@@ -125,6 +126,8 @@ module.exports = class UserController {
             const user = await User.findOne({
                 _id: id
             })
+
+            console.log(user, "user");
 
             if (!user) throw { name: `NotFound`, message: `User doesn't exist` }
 
