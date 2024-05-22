@@ -61,7 +61,7 @@ module.exports = class UserController {
 
             const checkUserPassword = comparePassword(password, user.password)
 
-            if (!checkUserPassword) throw { name: `Unauthorized`, message: `Account doesn't exist` }
+            if (!checkUserPassword) return res.status(401).json({ message: `Account doesn't exist` })
 
             const accessToken = generateToken({ id: user._id })
 
@@ -80,7 +80,6 @@ module.exports = class UserController {
             const user = await User.findOne({
                 email: email
             })
-            console.log(user, "USER");
 
             if (!user) throw { name: `NotFound`, message: `User doesn't exist` }
 
@@ -100,17 +99,18 @@ module.exports = class UserController {
                 from: process.env.AUTH_USER,
                 to: user.email,
                 subject: 'Reset Password Link',
-                text: `http://localhost:5173/reset-password/${user._id}/${token}`
+                text: `
+                http://localhost:5173/reset-password/${user._id}/${token}
+                `
             };
 
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     console.log(error);
                 } else {
-                    console.log('Email sent: ' + info.response);
+                    return res.status(200).json({ message: `Email sent to: ${user.email}` })
                 }
             });
-
 
         } catch (error) {
             console.log(error);
@@ -126,8 +126,6 @@ module.exports = class UserController {
             const user = await User.findOne({
                 _id: id
             })
-
-            console.log(user, "user");
 
             if (!user) throw { name: `NotFound`, message: `User doesn't exist` }
 

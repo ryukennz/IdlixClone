@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export default function Card({ fetchData, movies }) {
-
+export default function Card({ fetchData, movies, search }) {
   const filteredMovies = movies.filter((movie) =>
     movie.name.toLowerCase().includes(search.toLowerCase())
   );

@@ -21,5 +21,4 @@ router.get('/watch-list', WatchListController.getWatchListByCurrentUser)
 
 router.post('/watch-list', WatchListController.addToWatchList)
 
-
 module.exports = router
