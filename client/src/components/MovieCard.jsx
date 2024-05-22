@@ -1,13 +1,19 @@
 import { useEffect } from "react";
 
-export default function Card({ fetchData, movies, search }) {
+export default function Card({
+  fetchData,
+  movies,
+  search,
+  currentPage,
+  moviePerPage,
+}) {
   const filteredMovies = movies.filter((movie) =>
     movie.name.toLowerCase().includes(search.toLowerCase())
   );
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(currentPage, search, moviePerPage);
+  }, [currentPage, search, moviePerPage]);
 
   return (
     <>
