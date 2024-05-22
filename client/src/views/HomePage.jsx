@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import MovieCard from "../components/MovieCard";
 import { useState } from "react";
 import axios from '../utils/axios'
 export default function HomePage() {
@@ -51,7 +51,7 @@ export default function HomePage() {
         </div>
       </div>
       <div className="min-h-screen flex justify-center items-center bg-black">
-        <Card search={search} fetchData={getData} movies={movies} />
+        <MovieCard search={search} fetchData={getData} movies={movies} />
       </div>
     </>
   );

@@ -11,6 +11,8 @@ router.post('/login', UserController.login)
 
 router.post('/forgot-password', UserController.forgotPassword)
 
+router.post('/reset-password/:id/:token', UserController.resetPassword)
+
 router.get('/movies', MovieController.getMovies)
 
 router.use(authentication)

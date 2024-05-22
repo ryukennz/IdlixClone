@@ -1,4 +1,31 @@
+import axios from '../utils/axios'
+import { useState } from 'react';
+
 export default function Modal({ onOpen, onClose }) {
+
+  const [email, setEmail] = useState({
+    email: ""
+  })
+
+  const handleChange = (e) => {
+    const {name, value} = e.target
+    setEmail({
+      ...email,
+      [name]: value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: '/api/forgot-password',
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <div
@@ -26,11 +53,15 @@ export default function Modal({ onOpen, onClose }) {
                 Forgot Password
               </h4>
               <input
+                value={email}
+                onChange={handleChange}
                 className="flex text-center w-full p-4 bg-slate-100 rounded-xl"
                 type="email"
                 placeholder="youremail@mail.com"
               />
-              <button className="mt-4 p-4 bg-black rounded-xl font-bold text-white hover:text-gray-500">
+              <button 
+              type='submit'
+              className="mt-4 p-4 bg-black rounded-xl font-bold text-white hover:text-gray-500">
                 Submit
               </button>
             </div>

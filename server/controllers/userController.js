@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const emailValidator = require('../utils/emailValidator');
 const { hashPassword, comparePassword } = require('../utils/bcrypt');
-const { generateToken } = require('../utils/jwt');
+const { generateToken, verifyToken } = require('../utils/jwt');
 const { isSpaceOnlyRegister, isSpaceOnlyLogin } = require('../utils/isSpaceOnly');
 // const db = require('../db/mongoDbConnection');
 
@@ -111,6 +111,37 @@ module.exports = class UserController {
             });
 
 
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async resetPassword(req, res, next) {
+        try {
+            const { id, token } = req.params
+            const { password } = req.body
+
+            const user = await User.findOne({
+                _id: id
+            })
+
+            if (!user) throw { name: `NotFound`, message: `User doesn't exist` }
+
+            const checkToken = verifyToken(token)
+
+            if (!checkToken) {
+                return res.status(400).json({ message: 'Invalid or expired token' });
+            }
+
+            if (password.length < 6) throw { name: `BadRequest`, message: `Required field length must be minimum 6 characters` }
+
+            const updatePassword = hashPassword(password)
+
+            user.password = updatePassword
+            const result = await user.save()
+
+            return res.status(200).json({ message: `Successfully updated password`, result })
         } catch (error) {
             console.log(error);
             next(error)

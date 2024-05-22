@@ -4,6 +4,7 @@ import ForgotPasswordModal from "../components/ForgotPasswordModal";
 import SubmitBtn from "../components/SubmitBtn";
 import axios from "../utils/axios";
 import { toast } from "react-toastify";
+import img from '../assets/sign_in_up_img.jpeg'
 import "react-toastify/dist/ReactToastify.css";
 export default function LoginPage() {
   const [login, setLogin] = useState({
@@ -89,7 +90,7 @@ export default function LoginPage() {
           <div className="sm:block hidden w-1/2 p-4">
             <img
               className="rounded-xl shadow-2xl"
-              src="https://images.unsplash.com/photo-1714646542331-278803db302f?q=80&w=1970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={img}
             />
           </div>
         </div>
