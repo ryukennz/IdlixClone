@@ -1,6 +1,8 @@
 import MovieCard from "../components/MovieCard";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "../utils/axios";
+import logo from '../assets/idlix_logo.png'
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
@@ -63,9 +65,14 @@ export default function HomePage() {
       <div className="bg-black flex items-center p-8 justify-between">
         <img
           className="w-24 lg:ml-24"
-          src="https://vip.idlixofficial.net/wp-content/uploads/2020/07/logov4.png"
+          src={logo}
           alt="Logo"
         />
+        <div className="hidden md:block">
+        <Link to={'/watch-list'}>
+        <button className="text-2xl text-red-600 font-[open-sans] font-bold">WATCH LIST</button>
+        </Link>
+        </div>
         <div className="relative w-full max-w-sm hidden md:block">
           <input
             onChange={handleChange}

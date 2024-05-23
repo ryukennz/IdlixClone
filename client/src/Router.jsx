@@ -4,6 +4,8 @@ import LoginPage from "./views/LoginPage";
 import HomePage from "./views/HomePage";
 import ResetPasswordPage from "./views/ResetPasswordPage";
 import WatchList from "./components/WatchList";
+import { toast } from "react-toastify";
+import token from "./utils/token";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +15,13 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+    loader: () => {
+      if (token) {
+        toast.success("Login successfully");
+        return redirect("/watch-list");
+      }
+      return null;
+    },
   },
   {
     path: "/",
@@ -26,8 +35,10 @@ const router = createBrowserRouter([
     path: "/watch-list",
     element: <WatchList />,
     loader: () => {
-      const token = localStorage.getItem("user_authentication");
-      if (!token) throw redirect("/login");
+      if (!token) {
+        toast.info("Please log in to your account");
+        return redirect("/login");
+      }
       return null;
     },
   },

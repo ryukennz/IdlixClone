@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ForgotPasswordModal from "../components/ForgotPasswordModal";
 import SubmitBtn from "../components/SubmitBtn";
 import axios from "../utils/axios";
@@ -11,6 +11,7 @@ export default function LoginPage() {
     username: "",
     password: "",
   });
+
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -31,7 +32,7 @@ export default function LoginPage() {
         data: login,
       });
       localStorage.setItem("user_authentication", response.data.accessToken);
-      response.status === 200 ? toast.success(`Login success`) : null;
+      response.status === 200 ? toast.success(`Login success`) && <Link to={'/'}></Link>  : null;
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
