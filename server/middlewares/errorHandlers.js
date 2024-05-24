@@ -18,6 +18,9 @@ module.exports = function errorHandlers(err, req, res, next) {
         case `Unprocessable Entity (WebDAV)`:
             statusCode = 422
             break;
+        case `NotFound`:
+            statusCode = 404
+            break;
         default:
     }
 

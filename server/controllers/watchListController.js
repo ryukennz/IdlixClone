@@ -44,11 +44,11 @@ module.exports = class WatchListController {
 
             const watchList = await WatchList.findOne({
                 user: currentUser
-            })
+            }).populate('movies')
 
             if (!watchList) throw { name: `NotFound`, message: `Watch list not found` }
 
-            return res.json(watchList)
+            return res.status(200).json(watchList)
         } catch (error) {
             console.log(error);
             next(error)
